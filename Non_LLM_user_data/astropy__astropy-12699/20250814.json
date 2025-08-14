@@ -1,0 +1,21 @@
+{
+  "id": "job-1755215677-5ba0b5ad",
+  "ts": 1755215677,
+  "image": "docker.io/sweperf/sweperf_annotate:astropy__astropy-12699",
+  "instanceId": "astropy__astropy-12699",
+  "githubUrl": "https://github.com/astropy/astropy/pull/12699",
+  "workload_b64": "aW1wb3J0IHRpbWVpdAppbXBvcnQgc3RhdGlzdGljcwppbXBvcnQgYXN0cm9weS51bml0cyBhcyB1CiAgICAKZGVmIHdvcmtsb2FkKCk6CiAgICB1LlVuaXQoJ2ttL3MnLCBmb3JtYXQ9J2ZpdHMnKQoKcnVudGltZXMgPSB0aW1laXQucmVwZWF0KHdvcmtsb2FkLCBudW1iZXI9MSwgcmVwZWF0PTIwMDApCgpwcmludCgiTWVhbjoiLCBzdGF0aXN0aWNzLm1lYW4ocnVudGltZXNbLTEwMDA6XSkpCnByaW50KCJTdGQgRGV2OiIsIHN0YXRpc3RpY3Muc3RkZXYocnVudGltZXNbLTEwMDA6XSkp",
+  "before": {
+    "mean": 0.0007623008794325869,
+    "std": 9.004334260160805e-06
+  },
+  "after": {
+    "mean": 3.497642019647174e-05,
+    "std": 5.4067702501348205e-06
+  },
+  "improvement": 95.41173031014917,
+  "notes": "",
+  "client": {
+    "helper_version": "1.0"
+  }
+}
