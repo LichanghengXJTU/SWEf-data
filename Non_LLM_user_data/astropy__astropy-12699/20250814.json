@@ -1,0 +1,21 @@
+{
+  "id": "job-1755215989-22609a7d",
+  "ts": 1755215989,
+  "image": "docker.io/sweperf/sweperf_annotate:astropy__astropy-12699",
+  "instanceId": "astropy__astropy-12699",
+  "githubUrl": "https://github.com/astropy/astropy/pull/12699",
+  "workload": "import timeit\nimport statistics\nimport astropy.units as u\n    \ndef workload():\n    u.Unit('km/s', format='fits')\n\nruntimes = timeit.repeat(workload, number=1, repeat=2000)\n\nprint(\"Mean:\", statistics.mean(runtimes[-1000:]))\nprint(\"Std Dev:\", statistics.stdev(runtimes[-1000:]))",
+  "before": {
+    "mean": 0.0007623008794325869,
+    "std": 9.004334260160805e-06
+  },
+  "after": {
+    "mean": 3.497642019647174e-05,
+    "std": 5.4067702501348205e-06
+  },
+  "improvement": 95.41173031014917,
+  "notes": "",
+  "client": {
+    "helper_version": "1.0"
+  }
+}
