@@ -1,0 +1,21 @@
+{
+  "id": "job-1755293196-ef5dc63f",
+  "ts": 1755293196,
+  "image": "docker.io/sweperf/sweperf_annotate:matplotlib__matplotlib-17994",
+  "instanceId": "matplotlib__matplotlib-17994",
+  "githubUrl": "https://github.com/matplotlib/matplotlib/pull/17994",
+  "workload": "import timeit\nimport statistics\n\nimport matplotlib.pyplot as plt\nimport numpy as np\nfrom matplotlib.patches import Polygon\nimport tempfile\nimport os\n\ntempfile_path = tempfile.NamedTemporaryFile(delete=False).name\n\ndef tstack(a):\n    return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)\n\nx_min, x_max = 360, 780\nwl = np.arange(x_min, x_max, 1)\nwl_len = len(wl)\ncolours = np.random.random([wl_len, 3])  # random colours held constant per run\npadding = 0.1\n\n\ndef workload():\n    \"\"\"\n    The code whose performance we want to measure.\n    Re-creates the figure each iteration so the measurement includes\n    everything from plotting through layout to file I/O.\n    \"\"\"\n    values = np.sin(wl / 50) * 125 + 125\n\n    fig = plt.figure(figsize=(10.24, 7.68))\n    ax = fig.gca()\n\n    # Construct clipping polygon\n    polygon = Polygon(\n        np.vstack([\n            (x_min, 0),\n            tstack([wl, values]),\n            (x_max, 0),\n        ]),\n        facecolor='none',\n        edgecolor='none'\n    )\n    ax.add_patch(polygon)\n\n    # Draw bars clipped by the polygon\n    ax.bar(\n        x=wl - padding,\n        height=max(values),\n        width=1 + padding,\n        color=colours,\n        align='edge',\n        clip_path=polygon\n    )\n\n    # Overlay line plot and axis limits\n    ax.plot(wl, values)\n    ax.set_xlim(x_min, x_max)\n    ax.set_ylim(0, 250)\n\n    fig.tight_layout()\n    fig.savefig(tempfile_path)\n    plt.close(fig)\n    \nos.remove(tempfile_path)  # Clean up the temporary file after saving\n\nruntimes = timeit.repeat(workload, number=1, repeat=3)\n\nprint(\"Mean:\", statistics.mean(runtimes))\nprint(\"Std Dev:\", statistics.stdev(runtimes))",
+  "before": {
+    "mean": 16.29993270167809,
+    "std": 0.04136194776129413
+  },
+  "after": {
+    "mean": 4.653950058001404,
+    "std": 0.08266550690418793
+  },
+  "improvement": 71.44804126999693,
+  "notes": "SWEfficiency is great!",
+  "client": {
+    "helper_version": "1.0"
+  }
+}
