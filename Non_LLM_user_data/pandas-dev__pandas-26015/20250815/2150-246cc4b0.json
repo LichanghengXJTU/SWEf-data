@@ -1,0 +1,21 @@
+{
+  "id": "job-1755294651-8b7291cc",
+  "ts": 1755294651,
+  "image": "docker.io/sweperf/sweperf_annotate:pandas-dev__pandas-26015",
+  "instanceId": "pandas-dev__pandas-26015",
+  "githubUrl": "https://github.com/pandas-dev/pandas/pull/26015",
+  "workload": "import timeit\nimport statistics\n\nimport pandas as pd\nimport numpy as np\n\nmapper_options = ['dict', 'Series']\n\nmap_size = 1000\nmap_data1 = pd.Series(map_size - np.arange(map_size), dtype='category')\nmap_data2 = map_data1.copy().to_dict()\n\ns = pd.Series(np.random.randint(0, map_size, 10000), dtype='category')\n\ndef workload():\n    s.map(map_data1)\n    s.map(map_data2)\n\nruntimes = timeit.repeat(workload, number=1, repeat=1000)\n\nprint(\"Mean:\", statistics.mean(runtimes))\nprint(\"Std Dev:\", statistics.stdev(runtimes))",
+  "before": {
+    "mean": 0.0016864986681030133,
+    "std": 0.0002467072827859969
+  },
+  "after": {
+    "mean": 0.0006972473800415174,
+    "std": 0.00031772202600739545
+  },
+  "improvement": 58.65710461391668,
+  "notes": "Pass!",
+  "client": {
+    "helper_version": "1.0"
+  }
+}
