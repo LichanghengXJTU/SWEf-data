@@ -1,0 +1,21 @@
+{
+  "id": "job-1755296168-87764983",
+  "ts": 1755296168,
+  "image": "docker.io/sweperf/sweperf_annotate:pandas-dev__pandas-24023",
+  "instanceId": "pandas-dev__pandas-24023",
+  "githubUrl": "https://github.com/pandas-dev/pandas/pull/24023",
+  "workload": "import timeit\nimport statistics\n\nimport pandas as pd\nimport numpy as np\nimport string\n\ndef setup():\n    \"\"\"Setup function to create the CategoricalIndex objects.\"\"\"\n    global a, b, c\n    \n    np.random.seed(42) \n    a = pd.CategoricalIndex(np.random.choice(list(string.ascii_letters[:10]), 100_000))\n    b = a.copy()\n    c = pd.CategoricalIndex(np.random.choice(list(string.ascii_letters[:10]), 100_000))\n    \ndef workload():\n    global a, b, c\n    a.equals(b)\n    a.equals(c)\n    \nruntimes = timeit.repeat(workload, number=1, repeat=1000, setup=setup)\n\nprint(\"Mean:\", statistics.mean(runtimes))\nprint(\"Std Dev:\", statistics.stdev(runtimes))",
+  "before": {
+    "mean": 0.004076211258000256,
+    "std": 0.004740311855382519
+  },
+  "after": {
+    "mean": 0.0004674506539997196,
+    "std": 0.000370188418213059
+  },
+  "improvement": 88.53222700167298,
+  "notes": "Kill __pycache__ and local venv doc won't affect the non llm bench running",
+  "client": {
+    "helper_version": "1.0"
+  }
+}
