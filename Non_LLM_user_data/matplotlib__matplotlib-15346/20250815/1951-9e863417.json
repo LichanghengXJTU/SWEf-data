@@ -1,0 +1,21 @@
+{
+  "id": "job-1755287460-725faefe",
+  "ts": 1755287460,
+  "image": "docker.io/sweperf/sweperf_annotate:matplotlib__matplotlib-15346",
+  "instanceId": "matplotlib__matplotlib-15346",
+  "githubUrl": "https://github.com/matplotlib/matplotlib/pull/15346",
+  "workload": "import timeit\nimport statistics\n\nimport matplotlib.pyplot as plt\nfrom mpl_toolkits.mplot3d import Axes3D\n\nimport numpy as np\n\nn = 50\n\ndef setup():\n    global fig, ax, X, Y, Z, U, V, W\n    fig = plt.figure()\n    ax = fig.gca(projection='3d')\n    x, y, z = [np.random.rand(n) for _ in range(3)]\n    X, Y, Z = np.meshgrid(x, y, z)\n    U, V, W = [np.random.rand(*X.shape) for _ in range(3)]\n\ndef workload():\n    global fig, ax, X, Y, Z, U, V, W\n    ax.quiver(X, Y, Z, U, V, W)\n\nruntimes = timeit.repeat(workload, number=1, repeat=25, setup=setup)\n\nprint(\"Mean:\", statistics.mean(runtimes))\nprint(\"Std Dev:\", statistics.stdev(runtimes))",
+  "before": {
+    "mean": 2.4410188143572302,
+    "std": 0.1009802431042494
+  },
+  "after": {
+    "mean": 0.17523759684409015,
+    "std": 0.03848791428366714
+  },
+  "improvement": 92.82112879206817,
+  "notes": "I am Enhui Li. This is SWEfficiency",
+  "client": {
+    "helper_version": "1.0"
+  }
+}
