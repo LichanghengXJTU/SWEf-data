@@ -1,0 +1,21 @@
+{
+  "id": "job-1755286713-397d8582",
+  "ts": 1755286713,
+  "image": "docker.io/sweperf/sweperf_annotate:astropy__astropy-13471",
+  "instanceId": "astropy__astropy-13471",
+  "githubUrl": "https://github.com/astropy/astropy/pull/13471",
+  "workload": "import timeit\nimport statistics\nimport astropy.io.fits\nimport astropy.units as u\nfrom astropy.coordinates import (\n    EarthLocation, AltAz, SkyCoord, CoordinateAttribute, BaseCoordinateFrame,\n    UnitSphericalRepresentation, RepresentationMapping,\n)\nfrom astropy.time import Time\n\ndef setup():\n    global ExampleFrame, coord_attr, coord\n    class ExampleFrame(BaseCoordinateFrame):\n        frame_specific_representation_info = {\n            UnitSphericalRepresentation: [\n                RepresentationMapping(\"lon\", \"fov_lon\"),\n                RepresentationMapping(\"lat\", \"fov_lat\"),\n            ]\n        }\n        default_representation = UnitSphericalRepresentation\n        coord_attr = CoordinateAttribute(default=None, frame=AltAz)\n\n    loc = EarthLocation.of_site(\"Roque de los Muchachos\")\n    t = Time.now()\n    frame = AltAz(location=loc, obstime=t)\n    coord = SkyCoord(0 * u.deg, 0 * u.deg, frame=frame)\n\ndef workload():\n    global ExampleFrame, coord\n    ExampleFrame(coord_attr=coord)\n\nruntimes = timeit.repeat(workload, number=10, repeat=2000, setup=setup)\n\nprint(\"Mean:\", statistics.mean(runtimes[-1000:]))\nprint(\"Std Dev:\", statistics.stdev(runtimes[-1000:]))",
+  "before": {
+    "mean": 0.005404320609435672,
+    "std": 0.00042446922539401104
+  },
+  "after": {
+    "mean": 0.00016430208901874722,
+    "std": 6.088066693335597e-05
+  },
+  "improvement": 96.95980122400799,
+  "notes": "I am Enhui Li",
+  "client": {
+    "helper_version": "1.0"
+  }
+}
